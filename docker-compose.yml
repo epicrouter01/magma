@@ -2,10 +2,8 @@ version: '3.4'
 
 services:
   userservice:
-    image: userservice
-    build:
-      context: .
-      dockerfile: ./user-service/Dockerfile
+    container_name: user-service
+    build: user-service
     environment:
       NODE_ENV: production
     ports:
