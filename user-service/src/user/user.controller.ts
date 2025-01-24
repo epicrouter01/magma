@@ -24,19 +24,11 @@ export class UserController {
   @Get()
   async getAllUsers(@Query('from') from: number = 0, @Query('limit') limit: number = 0) {
     console.log('Getting users!');
-    this.validateNumber(from);
-    this.validateNumber(limit);
     const users = await this.userService.getAllUsers(from, limit);
     const count = await this.userService.count();
     return {
       users: users,
       count: count,
-    }
-  }
-
-  private validateNumber(value) {
-    if (typeof value !== 'number') {
-      throw new HttpException('Not a number', HttpStatus.BAD_REQUEST)
     }
   }
 
