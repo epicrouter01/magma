@@ -2,6 +2,8 @@ import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs
 import { UserService } from './user.service';
 import { ClientKafkaProxy } from '@nestjs/microservices';
 import { USER_CREATED_TOPIC, USER_DELETED_TOPIC } from 'src/app.config';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UserController {
@@ -11,9 +13,9 @@ export class UserController {
   ) {}
 
   @Post()
-  async createUser(@Body('name') name: string, @Body('email') email: string) {
-    console.log('Createing user with name', name);
-    const user = await this.userService.createUser(name, email);
+  async createUser(@Body() userDto: CreateUserDto) {
+    console.log('Creating user with name', userDto.name);
+    const user = await this.userService.createUser(userDto.name, userDto.email);
     await this.client.emit(USER_CREATED_TOPIC, user.id);
     console.log('User create message has been sent for', user.id, USER_CREATED_TOPIC);
     return user;
@@ -34,7 +36,7 @@ export class UserController {
   @Put(':id')
   updateUser(
     @Param('id') id: string,
-    @Body() body: any
+    @Body() body: UpdateUserDto
   ) {
     console.log('Updating user by id !', id);
     return this.userService.updateUser(id, body);

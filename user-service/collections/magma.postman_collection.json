@@ -31,14 +31,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/users/5",
+					"raw": "localhost:3000/users/6793e84678a5981af2d24ac8",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"users",
-						"5"
+						"6793e84678a5981af2d24ac8"
 					]
 				}
 			},
@@ -51,7 +51,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"John\",\r\n    \"email\": \"John@mail.com\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Redacted\",\r\n    \"email\": \"Redacted@mail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -59,14 +59,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/users/5",
+					"raw": "localhost:3000/users/6793f042ac016c2ccafc2412",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"users",
-						"5"
+						"6793f042ac016c2ccafc2412"
 					]
 				}
 			},
@@ -79,7 +79,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"John\",\r\n    \"email\": \"John@mail.com\"\r\n}",
+					"raw": "{\r\n    \"name\": \"mr.Green\",\r\n    \"email\": \"mrgreen@mail.com\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"

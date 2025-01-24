@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { User } from './dto/user';
+import { User } from './db/user';
 import { MongoConnection } from './mongo.connection';
 
 @Injectable()
