@@ -34,11 +34,10 @@ export class UserController {
   @Put(':id')
   updateUser(
     @Param('id') id: string,
-    @Body('name') name?: string,
-    @Body('email') email?: string,
+    @Body() body: any
   ) {
     console.log('Updating user by id !', id);
-    return this.userService.updateUser(id, name, email);
+    return this.userService.updateUser(id, body);
   }
 
   @Delete(':id')

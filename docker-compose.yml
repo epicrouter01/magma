@@ -6,7 +6,7 @@ services:
     build: user-service
     environment:
       KAFKA_BROKER: kafka:9092
-      MONGO_URL: mongodb://localhost:27017/collectionName
+      MONGO_URL: mongodb://root:example@mongo:27017
     ports:
       - 3000:3000
     depends_on:

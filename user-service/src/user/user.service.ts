@@ -1,55 +1,48 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './dto/user';
+import { MongoConnection } from './mongo.connection';
 
 @Injectable()
 export class UserService {
-    private users: User[] = [];
+    constructor(private db: MongoConnection) {
+    }
 
-    createUser(name: string, email: string): User {
-      const newUser: User = {
-        id: Math.random().toString(),
-        name,
-        email,
-        createdAt: new Date(),
-      };
-  
-      this.users.push(newUser);
-      return newUser;
+    async createUser(name: string, email: string): Promise<User> {
+      return this.db.createUser({
+        name, email, createdAt: new Date(),
+      });
     }
   
-    getAllUsers(): User[] {
-      return this.users.slice();
+    async getAllUsers(): Promise<User[]> {
+      return this.db.getAllUsers();
     }
   
-    getUserById(id: string): User {
-      const user = this.users.find((user) => user.id === id);
-      if (!user) {
+    async getUserById(id: string): Promise<User> {
+      const result = await this.db.findById(id);
+      if (!result) {
         throw new NotFoundException(`User with ID ${id} not found.`);
       }
-      return user;
+
+      return result;
     }
   
-    updateUser(id: string, name?: string, email?: string): User {
-      const user = this.getUserById(id);
-  
-      if (name) {
-        user.name = name;
+    async updateUser(id: string, data: Partial<User>): Promise<User> {
+      const result = await this.db.updateUser(id, data);
+
+      if (!result) {
+        throw new NotFoundException(`User with ID ${id} not found.`);
       }
-  
-      if (email) {
-        user.email = email;
-      }
-  
-      return user;
+
+      return result;
     }
   
-    deleteUser(id: string): void {
-      const userIndex = this.users.findIndex((user) => user.id === id);
-  
-      if (userIndex === -1) {
+    deleteUser(id: string): Promise<boolean> {
+      const result = this.db.deleteUser(id);
+
+      if (!result) {
         throw new NotFoundException(`User with ID ${id} not found.`);
       }
   
-      this.users.splice(userIndex, 1);
+      return result;
     }
 }
