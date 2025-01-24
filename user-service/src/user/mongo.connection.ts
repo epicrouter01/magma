@@ -58,9 +58,13 @@ export class MongoConnection implements OnModuleInit, OnModuleDestroy {
         return result.deletedCount > 0;
     }
 
-    public async getAllUsers(): Promise<User[]> {
-        const result = await this.users().find().toArray();
-        return result.map(this.serialize)
+    public async getAllUsers(from: number = 0, limit: number = 0): Promise<User[]> {
+        const result = await this.users().find().skip(from).limit(limit).toArray();
+        return result.map(this.serialize);
+    }
+
+    public async count(): Promise<number> {
+        return this.users().countDocuments();
     }
 
     private serialize(document): User {

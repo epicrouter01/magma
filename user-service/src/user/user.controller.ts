@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Inject, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Inject, Param, Post, Put, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ClientKafkaProxy } from '@nestjs/microservices';
 import { USER_CREATED_TOPIC, USER_DELETED_TOPIC } from 'src/app.config';
@@ -22,9 +22,22 @@ export class UserController {
   }
 
   @Get()
-  getAllUsers() {
+  async getAllUsers(@Query('from') from: number = 0, @Query('limit') limit: number = 0) {
     console.log('Getting users!');
-    return this.userService.getAllUsers();
+    this.validateNumber(from);
+    this.validateNumber(limit);
+    const users = await this.userService.getAllUsers(from, limit);
+    const count = await this.userService.count();
+    return {
+      users: users,
+      count: count,
+    }
+  }
+
+  private validateNumber(value) {
+    if (typeof value !== 'number') {
+      throw new HttpException('Not a number', HttpStatus.BAD_REQUEST)
+    }
   }
 
   @Get(':id')

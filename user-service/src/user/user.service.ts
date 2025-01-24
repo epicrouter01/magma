@@ -13,8 +13,12 @@ export class UserService {
       });
     }
   
-    async getAllUsers(): Promise<User[]> {
-      return this.db.getAllUsers();
+    async getAllUsers(from: number = 0, limit: number = 0): Promise<User[]> {
+      return this.db.getAllUsers(from, limit);
+    }
+
+    async count(): Promise<number> {
+      return this.db.count();
     }
   
     async getUserById(id: string): Promise<User> {
