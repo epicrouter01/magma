@@ -3,7 +3,7 @@ import { UserService } from './user/user.service';
 import { UserController } from './user/user.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { KAFKA_BROKER } from './app.config';
-import { MongoConnection } from './user/mongo.connection';
+import { MongoConnection } from './user/db/mongo.connection';
 import { HealthcheckModule } from './healthcheck/healthcheck.module';
 
 @Module({

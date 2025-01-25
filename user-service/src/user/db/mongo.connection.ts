@@ -1,7 +1,7 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { MongoClient, ObjectId } from "mongodb";
 import { MONGO_DB_NAME, MONGO_URL } from "src/app.config";
-import { User } from "./db/user";
+import { User } from "./schema/user";
 
 @Injectable()
 export class MongoConnection implements OnModuleInit, OnModuleDestroy {
