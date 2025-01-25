@@ -1,9 +1,11 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { MongoClient } from "mongodb";
 import { MONGO_URL } from "src/app.config";
 
 @Injectable()
 export class MongoHealthcheckService {
+    private readonly logger = new Logger(MongoHealthcheckService.name);
+
     constructor() {
     }
 
@@ -11,17 +13,17 @@ export class MongoHealthcheckService {
         let client: MongoClient;
 
         try {
-            console.log('Mongo healthcheck initiated');
+            this.logger.log('Mongo healthcheck initiated');
 
             client = new MongoClient(MONGO_URL);
             await client.connect();
 
-            console.log('Mongo healthcheck connect complete!');
+            this.logger.log('Mongo healthcheck connect complete!');
             await client.db().admin().ping()
-            console.log('Mongo healthcheck ping successful')
+            this.logger.log('Mongo healthcheck ping successful')
         }
         catch(e) {
-            console.log('Mongo healthcheck failed!', e);
+            this.logger.error('Mongo healthcheck failed!', e);
             throw e;
         }
     }

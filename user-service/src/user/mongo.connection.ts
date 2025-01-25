@@ -1,4 +1,4 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
+import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
 import { MongoClient, ObjectId } from "mongodb";
 import { MONGO_DB_NAME, MONGO_URL } from "src/app.config";
 import { User } from "./db/user";
@@ -6,22 +6,23 @@ import { User } from "./db/user";
 @Injectable()
 export class MongoConnection implements OnModuleInit, OnModuleDestroy {
     private client: MongoClient;
+    private readonly logger = new Logger(MongoConnection.name);
     
     async onModuleInit() {
         try {
             this.client = new MongoClient(MONGO_URL);
             await this.client.connect();
-            console.log('Connected to mongoDB!');
+            this.logger.log('Connected to mongoDB!');
         }
         catch(e) {
-            console.log('Error connecting to DB!', e);
+            this.logger.log('Error connecting to DB!', e);
             throw e;
         }
     }
     
     async onModuleDestroy() {
         await this.client.close();
-        console.log('Disconnected from mongoDB!');
+        this.logger.log('Disconnected from mongoDB!');
     }
 
     public async createUser(user: Omit<User, 'id'>): Promise<User> {
