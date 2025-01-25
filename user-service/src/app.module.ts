@@ -4,6 +4,7 @@ import { UserController } from './user/user.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { KAFKA_BROKER } from './app.config';
 import { MongoConnection } from './user/mongo.connection';
+import { HealthcheckModule } from './healthcheck/healthcheck.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { MongoConnection } from './user/mongo.connection';
           }
         }
       ]
-    )
+    ),
+    HealthcheckModule
   ],
   controllers: [UserController],
   providers: [MongoConnection, UserService],

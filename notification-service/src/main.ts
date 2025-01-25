@@ -4,7 +4,8 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { KAFKA_BROKER } from './app.config';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+  const app = await NestFactory.create(AppModule);
+  app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.KAFKA,
     options: {
       client: {
@@ -20,6 +21,8 @@ async function bootstrap() {
       }
     }
   });
-  await app.listen();
+
+  await app.startAllMicroservices();
+  await app.listen(process.env.PORT ?? 3001);
 }
 bootstrap();

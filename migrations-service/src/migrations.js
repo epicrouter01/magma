@@ -11,6 +11,11 @@ const topicsToCreate = [
         numPartitions: 1,
         replicationFactor: 1
     },
+    {
+        topic: 'health.check',
+        numPartitions: 1,
+        replicationFactor: 1
+    }
 ]
 
 async function runAll() {
